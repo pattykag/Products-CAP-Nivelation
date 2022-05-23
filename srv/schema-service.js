@@ -8,7 +8,7 @@ module.exports = cds.service.impl(async function() {
         const tx = cds.transaction(req);
 
         // Primero comprobamos que el campo "productName" no esté vacío, exista y no sea igual a null
-        if (req.data.productName && !req.data.productName !== null && !req.data.productName.trim() !== '') {
+        if (req.data.productName && req.data.productName !== null && req.data.productName.trim() !== '') {
             // Con trim, resolvemos si nos envían espacios vacios adelante y detrás
             req.data.productName = req.data.productName.trim();
             const { productName } = req.data;
