@@ -22,7 +22,7 @@ module.exports = cds.service.impl(async function() {
             }
 
             if (nameExist) { // El nombre del producto ya existe en la DB
-                const [ID] = req.params; // Guardar el ID que viene por URL
+                const [ID] = req.params; // Guardar el ID que viene por URL en el PATCH
 
                 if (ID === undefined || nameExist.ID !== ID || ID === null) { // Verificar si el URL tiene el mismo ID y nombre que alguno almacenado
                     // 'POST'
