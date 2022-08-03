@@ -1,21 +1,20 @@
-namespace Products;
-
 using {
     cuid,
     Country
 } from '@sap/cds/common';
 
-entity Products{ //una sola categoria
-key ID: Integer;
-        productName     : String;
-        supplier        : Association to Suppliers;
-        category        : Association to Categories;
-        quantityPerUnit : String;
-        unitPrice       : Decimal(10, 2);
-        unitsInStock    : Integer;
-        unitsOnOrder    : Integer;
-        reorderLevel    : Integer;
-        discontinued    : Boolean;
+namespace Products;
+
+entity Products : cuid { //una sola categoria
+    productName     : String;
+    supplier        : Association to Suppliers;
+    category        : Association to Categories;
+    quantityPerUnit : String;
+    unitPrice       : Decimal(10, 2);
+    unitsInStock    : Integer;
+    unitsOnOrder    : Integer;
+    reorderLevel    : Integer;
+    discontinued    : Boolean;
 }
 
 entity Suppliers { //muchos productos

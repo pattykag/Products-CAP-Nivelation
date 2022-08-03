@@ -44,11 +44,8 @@
   "cds": {
     "requires": {
       "db": {
-        "kind": "sql"
+        "kind": "hana-cloud"
       }
-    },
-    "hana": {
-      "deploy-format": "hdbtable"
     }
   }
 }

@@ -1,10 +1,10 @@
 const cds = require("@sap/cds")
 
-module.exports = cds.service.impl(async function() {
+module.exports = cds.service.impl(async function () {
     //module.exports = cds.service.impl(async(srv) => {
     const { Products, Suppliers, Categories } = this.entities;
 
-    this.before(['CREATE', 'UPDATE'], Products, async(req) => { // validar categoria y supplier
+    this.before(['CREATE', 'UPDATE'], Products, async (req) => { // validar categoria y supplier
         const tx = cds.transaction(req);
 
         // Primero comprobamos que el campo "productName" no esté vacío, exista y no sea igual a null
@@ -39,5 +39,42 @@ module.exports = cds.service.impl(async function() {
             console.log('No tiene nombre');
         }
     });
+
+    this.on('batchProducts', async (req) => {
+        console.log("Batch Products: ", req.data.value)
+
+        try {
+            const tx = await cds.transaction(req);
+            const { Products } = this.entities;
+
+            const oData = req.data.value;
+
+            if (oData && oData !== null && oData.length > 0) {
+                let iFilasInsertadas = 0;
+                
+                for (let i = 0; i < oData.length; i++) {
+                    iFilasInsertadas += await tx.run(INSERT.into(Products).entries(oData[i]));
+                    console.log(iFilasInsertadas)
+                }
+
+                // oData.forEach(async element => {
+                //     //console.log("elemento:", JSON.stringify(element))
+                //     await tx.run(INSERT.into(Products).entries(element));
+                //     iFilasInsertadas = iFilasInsertadas + 1;  //no funciona esta linea
+                // });
+                
+                const oMessage = {
+                    code: 201,
+                    message: "Número de Productos ingresados " + iFilasInsertadas
+                }
+                return oMessage;
+            } else {
+                req.reject(400, "No se ha recibido ningún Producto")
+            }
+        } catch (e) {
+            console.log("Error", e)
+            req.reject(400, e)
+        }
+    })
 
 })

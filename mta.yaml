@@ -9,7 +9,6 @@ build-parameters:
   before-all:
     - builder: custom
       commands:
-        - npm ci
         - npx -p @sap/cds-dk cds build --production
 
 modules:
@@ -39,7 +38,5 @@ resources:
   - name: productsTest-db
     type: com.sap.xs.hdi-container
     parameters:
-      service: hana # or 'hanatrial' on trial landscapes
+      service: hana
       service-plan: hdi-shared
-    properties:
-      hdi-service-name: ${service-name}
